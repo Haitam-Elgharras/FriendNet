@@ -20,3 +20,15 @@ Content-Type: application/json
   "email": "john.doe@example.comm",
   "password": "securepassworD8@"
 }
+
+### "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YWQyYTRkNWNkZjFkMDAwNGNlM2YxZiIsImlhdCI6MTcwNTg0NzU5MX0.YYz9ZZV31TRtyrG9ycDah2Af5gsCls47DFcCXzZFM6E",
+
+POST http://localhost:3001/posts
+Content-Type: application/json
+Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YWQyYTRkNWNkZjFkMDAwNGNlM2YxZiIsImlhdCI6MTcwNTg0NzU5MX0.YYz9ZZV31TRtyrG9ycDah2Af5gsCls47DFcCXzZFM6E"
+
+{
+  "userId": "65ad2a4d5cdf1d0004ce3f1f",
+  "description": "This is a post description",
+  "picturePath": "/path/to/picture.jpg"
+}

@@ -8,11 +8,17 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
-import { register } from "./controllers/auth.js";
+import { users, posts } from "./data/index.js";
+import User from "./models/User.js";
+import Post from "./models/Post.js";
 
 import authRoutes from "./routes/auth.js";
 import home from "./routes/home.js";
 import userRoutes from "./routes/users.js";
+import postRoutes from "./routes/posts.js";
+
+import { register } from "./controllers/auth.js";
+import { createPost } from "./controllers/posts.js";
 
 /* CONFIGURATIONS */
 
@@ -47,10 +53,12 @@ app.use("/", home);
 
 // special route for registering users cause we need to upload a file
 app.post("/auth/register", upload.single("profilePicture"), register);
+app.post("/posts", upload.single("postPicture"), createPost);
 
 // ROUTES
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
+app.use("/posts", postRoutes);
 
 // MONGOOSE SETUP
 const PORT = process.env.PORT || 6001;
@@ -59,5 +67,9 @@ mongoose
   .then(() => {
     console.log("Connected to MongoDB");
     app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
+
+    // // SEEDING
+    // User.insertMany(users);
+    // Post.insertMany(posts);
   })
   .catch((error) => console.log(error.message));
