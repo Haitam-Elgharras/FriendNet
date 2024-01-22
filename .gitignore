@@ -55,3 +55,10 @@ Desktop.ini
 # npm
 npm-debug.log*
 *.sqlite
+
+# React
+/build/
+/dist/
+
+# .txt .json 
+*.txt
