@@ -1,5 +1,6 @@
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
 import Form from "./Form";
+import ThemeMode from "components/ThemeMode";
 
 const LoginPage = () => {
   const theme = useTheme();
@@ -15,6 +16,7 @@ const LoginPage = () => {
         <Typography fontWeight="bold" fontSize="32px" color="primary">
           FriendNet
         </Typography>
+        <ThemeMode />
       </Box>
 
       <Box
