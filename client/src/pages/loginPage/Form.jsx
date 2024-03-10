@@ -23,7 +23,7 @@ const registerSchema = yup.object().shape({
   password: yup.string().required("required"),
   location: yup.string().required("required"),
   occupation: yup.string().required("required"),
-  picture: yup.string().required("required"),
+  profilePicture: yup.string().required("required"),
 });
 
 const loginSchema = yup.object().shape({
@@ -38,7 +38,7 @@ const initialValuesRegister = {
   password: "",
   location: "",
   occupation: "",
-  picture: "",
+  profilePicture: "",
 };
 
 const initialValuesLogin = {
@@ -47,6 +47,7 @@ const initialValuesLogin = {
 };
 
 const Form = () => {
+  // const formikRef = useRef();
   const [pageType, setPageType] = useState("login");
   const { palette } = useTheme();
   const dispatch = useDispatch();
@@ -56,12 +57,11 @@ const Form = () => {
   const isRegister = pageType === "register";
 
   const register = async (values, onSubmitProps) => {
-    // this allows us to send form info with image
     const formData = new FormData();
     for (let value in values) {
       formData.append(value, values[value]);
     }
-    formData.append("picturePath", values.picture.name);
+    formData.append("picturePath", values.profilePicture.name);
 
     const savedUserResponse = await fetch(
       "http://localhost:3001/auth/register",
@@ -70,12 +70,18 @@ const Form = () => {
         body: formData,
       }
     );
+    if (!savedUserResponse.ok) {
+      const {errors} = await savedUserResponse.json();
+      onSubmitProps.setErrors(errors);
+      return;
+    }
+   
     const savedUser = await savedUserResponse.json();
     onSubmitProps.resetForm();
 
-    if (savedUser) {
+    if (savedUser)
       setPageType("login");
-    }
+
   };
 
   const login = async (values, onSubmitProps) => {
@@ -84,7 +90,14 @@ const Form = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values),
     });
+    if (!loggedInResponse.ok) {
+      const {errors} = await loggedInResponse.json();
+      onSubmitProps.setErrors(errors);
+      return;
+    }
+
     const loggedIn = await loggedInResponse.json();
+
     onSubmitProps.resetForm();
     if (loggedIn) {
       dispatch(
@@ -108,7 +121,8 @@ const Form = () => {
       initialValues={isLogin ? initialValuesLogin : initialValuesRegister}
       validationSchema={isLogin ? loginSchema : registerSchema}
     >
-      {({
+      {
+      ({
         values,
         errors,
         touched,
@@ -135,9 +149,7 @@ const Form = () => {
                   onChange={handleChange}
                   value={values.firstName}
                   name="firstName"
-                  error={
-                    Boolean(touched.firstName) && Boolean(errors.firstName)
-                  }
+                  error={Boolean(touched.firstName) && Boolean(errors.firstName)}
                   helperText={touched.firstName && errors.firstName}
                   sx={{ gridColumn: "span 2" }}
                 />
@@ -183,7 +195,7 @@ const Form = () => {
                     acceptedFiles=".jpg,.jpeg,.png"
                     multiple={false}
                     onDrop={(acceptedFiles) =>
-                      setFieldValue("picture", acceptedFiles[0])
+                      setFieldValue("profilePicture", acceptedFiles[0])
                     }
                   >
                     {({ getRootProps, getInputProps }) => (
@@ -194,11 +206,11 @@ const Form = () => {
                         sx={{ "&:hover": { cursor: "pointer" } }}
                       >
                         <input {...getInputProps()} />
-                        {!values.picture ? (
+                        {!values.profilePicture ? (
                           <p>Add Picture Here</p>
                         ) : (
                           <FlexBetween>
-                            <Typography>{values.picture.name}</Typography>
+                            <Typography>{values.profilePicture.name}</Typography>
                             <EditOutlinedIcon />
                           </FlexBetween>
                         )}
@@ -219,6 +231,7 @@ const Form = () => {
               helperText={touched.email && errors.email}
               sx={{ gridColumn: "span 4" }}
             />
+
             <TextField
               label="Password"
               type="password"

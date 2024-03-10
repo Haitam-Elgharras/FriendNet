@@ -62,8 +62,9 @@ app.use("/posts", postRoutes);
 
 // MONGOOSE SETUP
 const PORT = process.env.PORT || 6001;
-mongoose
-  .connect(process.env.MONGO_URL, {})
+const uri = process.env.MONGO_URI;
+
+mongoose.connect(uri, {})
   .then(() => {
     console.log("Connected to MongoDB");
     app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
@@ -73,3 +74,14 @@ mongoose
     // Post.insertMany(posts);
   })
   .catch((error) => console.log(error.message));
+
+  // get all users 
+  app.get("/users", async (req, res) => {
+    try {
+      const users = await User.find();
+      
+      console.log(users);
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
+  });

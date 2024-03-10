@@ -17,20 +17,24 @@ export const register = async (req, res) => {
     impressions,
   } = req.body;
 
+  let errors = {};
+
   // check if user already exists
   const userExists = await User.findOne({ email });
   if (userExists) {
-    return res.status(400).json({ message: "User already exists" });
+    errors.email = "User with this email already exists";
   }
-
+  
   // Validate password
-  var re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s]{8,}$/;
+  var re = /.{8,}/;
   if (!re.test(password)) {
-    return res.status(400).json({
-      message:
-        "Password should be at least 8 characters long and contain at least one uppercase letter, one lowercase letter and one number",
-    });
+    errors.password = "Password should be at least 8 characters long";
   }
+  
+  if (errors) {
+    return res.status(400).json({ errors });
+  }
+  
 
   // hash password
   const salt = await bcrypt.genSalt(10);
@@ -62,19 +66,27 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  try {
+    let errors = {};
     const { email, password } = req.body;
-    const user = await User.findOne({ email: email });
-    if (!user) return res.status(400).json({ msg: "User does not exist" });
+    console.log(req.body);
+    const user = await User.findOne({ email });
+    if (!user) 
+    {
+      errors.password = "Invalid credentials";
+      errors.email = " ";
+     return res.status(400).json({ errors });
+    }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
+    if (!isMatch) {
+      errors.password = "Invalid credentials";
+      errors.email = " ";
+     return res.status(400).json({ errors });
+    }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     delete user.password;
 
     res.status(200).json({ token, user });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
 };
+

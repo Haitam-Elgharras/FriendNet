@@ -5,7 +5,7 @@ Content-Type: application/json
   "firstName": "John",
   "lastName": "Doe",
   "email": "john.doe@example.comm",
-  "password": "securepassworD8@",
+  "password": "123",
   "picturePath": "/path/to/picture.jpg",
   "friends": [],
   "location": "New York",
