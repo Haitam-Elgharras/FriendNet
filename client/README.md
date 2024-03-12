@@ -68,3 +68,50 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+# Host port and container port
+- The container port is not the host port even if the container port is 3000, the host port is 3000. so we need to map the container port to the host port.
+
+# Security fails if we leave the container with the root user
+- We need to create a user in the container and run the app with that user.
+for that we need add the following lines to Dockerfile:
+`RUN addgroup app && adduser -S -G app app`
+`USER app`
+
+# default CMD after build the image
+- We can supply a default command to be executed when the container starts. for example :
+`CMD npm start`
+
+# the difference between CMD and RUN
+- RUN is a build time instruction, it is executed in the image build time.
+- CMD is a run time instruction, it is executed when the container starts.
+
+# The difference between CMD shell and CMD exec
+- it's a best practice to use CMD exec instead of CMD shell because it runs the command directly without creating another shell process, so it makes cleaning containers easier.
+
+# The difference between ENTRYPOINT and CMD
+- ENTRYPOINT is like CMD exec but it can't be overridden by default, if we need to override it we need to use the `--entrypoint` flag. in other hand CMD can be overridden by default.
+
+
+# Free up space
+- To remove all stopped containers:
+`docker container prune`
+- To remove all unused images (dangling images):
+`docker image prune`
+- delete a container:
+`docker rm <container_id>`
+- delete an image:
+`docker rmi <image_id>`
+
+## Tagging images
+- Tags are used for the versioning of the images, for example:
+`docker build -t <imagename>:<tag> .`
+- a tag can be a version number like 3.0.0 or a build number like 73 etc. and it can be configured in the CI/CD pipeline to be incremented automatically.
+- to retag an image: 
+`docker tag <old_image_name>:<old_tag> <new_image_name>:<new_tag>`
+- remove a tag:
+`docker image remove <image_name>:<tag>`
+- upgrade to latest tag:
+`docker tag <image_name>:<tag> <image_name>:latest` or `docker tag imageid <image_name>:latest`
+

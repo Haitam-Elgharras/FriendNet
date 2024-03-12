@@ -6,21 +6,21 @@ RUN addgroup app && adduser -S -G app app
 USER app
 
 WORKDIR /app
-
 # copy stable files first
 COPY package*.json .
 RUN npm install
 
-# copy the rest of the files
+# copy all files including overwriting the package*.json
 COPY . . 
 
-# This is the port that the Container will listen on
-EXPOSE 3000
+EXPOSE 3001
+
+ENV MONGO_URI=mongodb+srv://myAtlasDBUser:12345612@myatlasclusteredu.6yztxkk.mongodb.net/SocialMedia?retryWrites=true&w=majority&appName=myAtlasClusterEDU
+ENV PORT=3001
+ENV JWT_SECRET=MY_JWT_SECRET
 
 # cmd exec form
 CMD ["npm", "start"]
 
-
-# Note that alpine doesnt have apt it uses apk
-# set env
-# ENV PORT=3000
+# cmd shell form
+# CMD npm start
