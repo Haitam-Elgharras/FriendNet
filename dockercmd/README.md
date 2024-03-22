@@ -57,7 +57,7 @@ docker image ls
 - Starts the container in the background.
 - Will pull the image from the repository if it does not exist locally.
 
-### 2. `docker run -it <name>`:
+### 2. `docker run -it <image-name>`:
 
 - Runs a Docker container interactively (`-it`).
 - Provides an interactive shell within the container for user interaction.

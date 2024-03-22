@@ -8,9 +8,9 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
-import { users, posts } from "./data/index.js";
+// import { users, posts } from "./data/index.js";
 import User from "./models/User.js";
-import Post from "./models/Post.js";
+// import Post from "./models/Post.js";
 
 import authRoutes from "./routes/auth.js";
 import home from "./routes/home.js";
@@ -46,7 +46,6 @@ const storage = multer.diskStorage({
     cb(null, file.originalname);
   },
 });
-
 const upload = multer({ storage });
 
 app.use("/", home);

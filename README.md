@@ -115,3 +115,34 @@ for that we need add the following lines to Dockerfile:
 - upgrade to latest tag:
 `docker tag <image_name>:<tag> <image_name>:latest` or `docker tag imageid <image_name>:latest`
 
+
+# Pushing images to Docker Hub
+first we build the image then we need to tag it with the docker hub username and the repository name then we need to login to the docker hub and push the image.
+`docker image tag <image_name>:<tag> <docker_hub_username>/<repository_name>:<tag>`
+`docker login`
+`docker push <docker_hub_username>/<repository_name>:<tag>`
+
+example:
+`docker image tag friendnetserver:2 haitamelgharras/friendnet_server:2`
+`docker login`
+`docker push haitamelgharras/friendnet_server:2`
+
+# Saving and loading images
+- To save an image to a file:
+`docker save -o <filename>.tar <image_name>:<tag>`
+example:
+`docker save -o friendnetsrv.tar friendnetserver:2`
+- To load an image from a file:
+`docker load -i <filename>.tar`
+example:
+`docker load -i friendnetsrv.tar`
+- Note that .tar is a compressed file like .zip in windows.
+
+- mount a drive:
+sudo mount -t drvfs E: /mnt/e
+
+# To learn more about any command
+`docker <command> --help`
+
+
+
