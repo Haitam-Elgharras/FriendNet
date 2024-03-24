@@ -20,8 +20,6 @@ export const verifyToken = (req, res, next) => {
     }
 
     req.user = verified;
-    console.log(verified);
-
     next();
   } catch (error) {
     res.status(500).json({ error: error.message });

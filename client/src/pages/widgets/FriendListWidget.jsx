@@ -23,9 +23,9 @@ const FriendListWidget = ({ userId }) => {
     const data = await response.json();
     dispatch(setFriends({ friends: data }));
   };
-
   useEffect(() => {
     getFriends();
+    // empty dependency array to run the effect only once when the component mounts
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -39,15 +39,18 @@ const FriendListWidget = ({ userId }) => {
         Friend List
       </Typography>
       <Box display="flex" flexDirection="column" gap="1.5rem">
-        {friends.map((friend) => (
-          <Friend
-            key={friend._id}
-            friendId={friend._id}
-            name={`${friend.firstName} ${friend.lastName}`}
-            subtitle={friend.occupation}
-            userPicturePath={friend.picturePath}
-          />
-        ))}
+        {friends.map(
+          (friend, index) =>
+            friend && (
+              <Friend
+                key={index}
+                friendId={friend._id}
+                name={`${friend.firstName} ${friend.lastName}`}
+                subtitle={friend.occupation}
+                userPicturePath={friend.picturePath}
+              />
+            )
+        )}
       </Box>
     </WidgetWrapper>
   );

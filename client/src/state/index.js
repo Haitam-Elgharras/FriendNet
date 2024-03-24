@@ -30,12 +30,10 @@ export const authSlice = createSlice({
       }
     },
     addFriend: (state, action) => {
-      if (state.user) {
-        if (action.payload != {})
-          state.user.friends.push(action.payload); // add the new friend to the friends list
-      } else {
-        console.error("user friends non-existent :(");
-      }
+      if (state.user && action.payload.firstName !== undefined)
+        state.user.friends.push(action.payload);
+      else
+       state.user.friends = state.user.friends.filter((friend) => friend._id !== action.payload._id);
     },
     setPosts: (state, action) => {
       state.posts = action.payload.posts;
