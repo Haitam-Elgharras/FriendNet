@@ -20,8 +20,8 @@ export const createPost = async (req, res) => {
 
     await newPost.save();
 
-    const posts = await Post.find();
-    res.status(201).json(posts);
+    
+    res.status(201).json(newPost);
   } catch (error) {
     // 409 : error of creation
     res.status(409).json({ message: error.message });
@@ -31,7 +31,7 @@ export const createPost = async (req, res) => {
 // READ
 export const getFeedPosts = async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().sort({ _id: -1 });
     res.status(200).json(posts);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -42,7 +42,7 @@ export const getFeedPosts = async (req, res) => {
 export const getUserPosts = async (req, res) => {
   try {
     const { userId } = req.params;
-    const posts = await Post.find({ userId });
+    const posts = await Post.find({ userId }).sort({ _id: -1 });
     res.status(200).json(posts);
   } catch (error) {
     res.status(404).json({ message: error.message });

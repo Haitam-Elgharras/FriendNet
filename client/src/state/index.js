@@ -30,7 +30,7 @@ export const authSlice = createSlice({
       }
     },
     addFriend: (state, action) => {
-      if (state.user && action.payload.firstName !== undefined)
+      if (state.user && action.payload.firstName !== undefined && state.user._id !== action.payload._id)
         state.user.friends.push(action.payload);
       else
        state.user.friends = state.user.friends.filter((friend) => friend._id !== action.payload._id);

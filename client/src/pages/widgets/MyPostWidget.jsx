@@ -34,6 +34,7 @@ import {
     const { palette } = useTheme();
     const { _id } = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
+    const posts = useSelector((state) => state.posts);
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
     const mediumMain = palette.neutral.mediumMain;
     const medium = palette.neutral.medium;
@@ -52,8 +53,8 @@ import {
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
       });
-      const posts = await response.json();
-      dispatch(setPosts({ posts }));
+      const newPost = await response.json();
+      dispatch(setPosts({ posts: [newPost, ...posts] }));
       setImage(null);
       setPost("");
     };
