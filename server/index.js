@@ -19,6 +19,7 @@ import postRoutes from "./routes/posts.js";
 
 import { register } from "./controllers/auth.js";
 import { createPost } from "./controllers/posts.js";
+import { verifyToken } from "./middleware/auth.js";
 
 /* CONFIGURATIONS */
 
@@ -59,7 +60,7 @@ app.use("/", home);
 
 // special route for registering users cause we need to upload a file
 app.post("/auth/register", upload.single("profilePicture"), register);
-app.post("/posts", upload.single("postPicture"), createPost);
+app.post("/posts",verifyToken, upload.single("postPicture"), createPost);
 
 // ROUTES
 app.use("/auth", authRoutes);

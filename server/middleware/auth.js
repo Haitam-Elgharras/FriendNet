@@ -20,6 +20,7 @@ export const verifyToken = (req, res, next) => {
     }
 
     req.user = verified;
+    console.log(verified);
 
     next();
   } catch (error) {
