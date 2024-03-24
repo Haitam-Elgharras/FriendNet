@@ -28,17 +28,15 @@ export const register = async (req, res) => {
   // Validate password
   var re = /.{8,}/;
   if (!re.test(password)) {
-    errors.password = "Password should be at least 8 characters long";
+    errors.password = "Password must be at least 8 characters long";
   }
   
-  if (errors) {
+  if (Object.keys(errors).length !== 0) {
     return res.status(400).json({ errors });
   }
-  
 
   // hash password
   const salt = await bcrypt.genSalt(10);
-  console.log(salt);
   const hashedPassword = await bcrypt.hash(password, salt);
 
   // create new user
@@ -59,8 +57,6 @@ export const register = async (req, res) => {
     await newUser.save();
     res.status(201).json(newUser);
   } catch (error) {
-    console.log("Error during user registration:", error.message);
-    console.log(error); // log the entire error object
     res.status(500).json({ message: error.message });
   }
 };
@@ -68,7 +64,6 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     let errors = {};
     const { email, password } = req.body;
-    console.log(req.body);
     const user = await User.findOne({ email });
     if (!user) 
     {

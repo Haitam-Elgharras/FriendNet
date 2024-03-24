@@ -1,4 +1,4 @@
-import { setMode } from "state";
+import { setMode } from "../state";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { IconButton, useTheme } from "@mui/material";

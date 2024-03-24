@@ -14,7 +14,6 @@ export const verifyToken = (req, res, next) => {
     }
 
     const verified = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("verified token :", verified + "\n");
     if (!verified) {
       // 401 Unauthorized
       return res.status(401).json({ message: "Unauthorized" });
@@ -24,7 +23,6 @@ export const verifyToken = (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: error.message });
   }
 };

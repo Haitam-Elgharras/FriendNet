@@ -1,4 +1,6 @@
+import React from 'react';
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   Box,
   IconButton,
@@ -21,22 +23,16 @@ import {
   Close,
 } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
-import { setMode, setLogout } from "state";
+import { setMode, setLogout } from "../../state";
 import { useNavigate } from "react-router-dom";
-import FlexBetween from "components/FlexBetween";
-import ThemeMode from "components/ThemeMode";
+import FlexBetween from "../../components/FlexBetween";
+import ThemeMode from "../../components/ThemeMode";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const user = useSelector((state) => state.user);
-  const user = {
-    _id: 1,
-    firstName: "John",
-    lastName: "Doe",
-  };
-  console.log("user : " + user);
+  const user = useSelector((state) => state.user);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   const theme = useTheme();
@@ -47,6 +43,7 @@ const Navbar = () => {
   const alt = theme.palette.background.alt;
 
   const fullName = `${user.firstName} ${user.lastName}`;
+  const shortName = `${user.firstName}`;
   let mode = theme.palette.mode;
 
   return (

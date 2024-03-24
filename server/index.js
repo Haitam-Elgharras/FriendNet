@@ -1,10 +1,10 @@
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
-import cors from "cors";
 import dotenv from "dotenv";
 import multer from "multer";
 import helmet from "helmet";
+import cors from 'cors';
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -26,15 +26,22 @@ import { createPost } from "./controllers/posts.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const corsOptions = {
+  origin: 'http://localhost:5173', // replace with your application's origin
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
 dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(helmet());
-app.use(helmet.crossOriginResourcePolicy());
+app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
+app.use(cors(corsOptions));
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
 // FILE STORAGE
@@ -79,7 +86,6 @@ mongoose.connect(uri, {})
     try {
       const users = await User.find();
       
-      console.log(users);
     } catch (error) {
       res.status(404).json({ message: error.message });
     }
