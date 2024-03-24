@@ -13,6 +13,7 @@ export const getUser = async (req, res) => {
 
 // get all friends of the current user
 export const getUserFriends = async (req, res) => {
+  console.log("getUserFriends");
   try {
     const { id } = req.params;
     const user = await User.findById(id);
@@ -20,18 +21,17 @@ export const getUserFriends = async (req, res) => {
       user.friends.map((id) => User.findById(id))
     );
     let friendList = [];
-    friends.map((friend) => {
-      const { _id, firstName, lastName, occupation, location, picturePath } =
-        friend;
-      friendList.push({
-        _id,
-        firstName,
-        lastName,
-        occupation,
-        location,
-        picturePath,
-      });
-    });
+    friends.map(
+      ({ _id, firstName, lastName, occupation, location, picturePath }) =>
+        friendList.push({
+          _id,
+          firstName,
+          lastName,
+          occupation,
+          location,
+          picturePath,
+        })
+    );
 
     res.status(200).json(friendList);
   } catch (error) {
@@ -40,43 +40,33 @@ export const getUserFriends = async (req, res) => {
 };
 
 // update the current user's friend list
-export const AddRemoveFriend = async (req, res) => {
+export const addRemoveFriend = async (req, res) => {
   try {
     const { id, friendId } = req.params;
     const user = await User.findById(id);
     const friend = await User.findById(friendId);
 
-    if (!user.friends.includes(friendId)) {
-      await user.friends.push(friendId);
-      //   TODO: the friend needs to accept the request first
-      await friend.friends.push(id);
+    if (user.friends.includes(friendId)) {
+      user.friends = user.friends.filter((id) => id !== friendId);
+      friend.friends = friend.friends.filter((id) => id !== id);
     } else {
-      await user.friends.filter((friend) => friend !== friendId);
-      await friend.friends.filter((friend) => friend !== id);
+      user.friends.push(friendId);
+      friend.friends.push(id);
     }
-    user.save();
-    friend.save();
+    await user.save();
+    await friend.save();
 
-    // needs refactoring
     const friends = await Promise.all(
       user.friends.map((id) => User.findById(id))
     );
-    let friendList = [];
-    friends.map((friend) => {
-      const { _id, firstName, lastName, occupation, location, picturePath } =
-        friend;
-      friendList.push({
-        _id,
-        firstName,
-        lastName,
-        occupation,
-        location,
-        picturePath,
-      });
-    });
+    const formattedFriends = friends.map(
+      ({ _id, firstName, lastName, occupation, location, picturePath }) => {
+        return { _id, firstName, lastName, occupation, location, picturePath };
+      }
+    );
 
-    res.status(200).json(friendList);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(200).json(formattedFriends);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
   }
-};
+}

@@ -22,6 +22,22 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 
   const isFriend = friends.find((friend) => friend._id === friendId);
 
+  // const patchFriend = async () => {
+  //   const response = await fetch(
+  //     `http://localhost:3001/users/${_id}/${friendId}`,
+  //     {
+  //       method: "PATCH",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //     }
+  //   );
+  //   const data = await response.json();
+  //   console.log(data);
+  //   dispatch(addFriend(data)); // dispatch an action to add the new friend
+  // };
+
   const patchFriend = async () => {
     const response = await fetch(
       `http://localhost:3001/users/${_id}/${friendId}`,
