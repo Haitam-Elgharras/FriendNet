@@ -19,7 +19,7 @@ COPY . .
 
 EXPOSE 3001
 
-ENV MONGO_URI=mongodb+srv://myAtlasDBUser:12345612@myatlasclusteredu.6yztxkk.mongodb.net/SocialMedia?retryWrites=true&w=majority&appName=myAtlasClusterEDU
+ENV MONGO_URI=mongodb://db:27017/SocialMedia
 ENV PORT=3001
 ENV JWT_SECRET=MY_JWT_SECRET
 

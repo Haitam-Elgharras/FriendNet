@@ -8,9 +8,25 @@ services:
   server:
     build: ./server
     ports:
-      - 5000:3001
-    # environment:
+      - 3001:3001
+    environment:
+      MONGO_URI: mongodb://db/SocialMedia
+      JWT_SECRET: MY_JWT_SECRET
       # DB_URL: mongodb://db/friendnet
+  db:
+    image: mongo
+    container_name: "my-mongo"
+    restart: always
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME:
+    #   MONGO_INITDB_ROOT_PASSWORD:
+    volumes:
+      - friendnet:/data/db
+    ports:
+      - 27017:27017
+volumes:
+  friendnet:
+      
 
 #  if we have a local database
 #   mongodb:
@@ -20,5 +36,5 @@ services:
 #     volumes:
 #       - friendnet:/data/db
 
-# volumes:
-#   friendnet:
+# define valum before using it
+

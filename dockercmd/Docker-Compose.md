@@ -42,3 +42,15 @@ Then run the mongo shell:
 ```bash
 mongosh
 ```
+
+# ports vs expose
+- ports:
+1. Activates the container to listen for specified port(s) from the world outside of the docker (can be the same host machine or a different machine) AND is also accessible to the world inside Docker.
+2. More than one port can be specified (that's why it's ports not port).
+![alt text](image.png)
+
+- expose:
+1. Activates container to listen for a specific port only from the world inside of docker AND is not accessible to the world outside of Docker.
+2. More than one port can be specified.
+![alt text](image-1.png)
+
