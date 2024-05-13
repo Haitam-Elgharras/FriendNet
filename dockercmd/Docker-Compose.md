@@ -15,7 +15,7 @@ docker-compose build --no-cache
 ```bash
 docker-compose up
 ```
-- if the image is not built, it will build it first and then run it.
+- if the image is not built, docker-compose will build it first and then run it.
 
 - Build and start the app in the background:
 ```bash
@@ -27,3 +27,18 @@ docker-compose up -d
 docker-compose down
 ```
 - Note that the images are not deleted, only the containers.
+
+
+# Mongodb with Docker
+- to use mongo container 
+```bash
+docker run --name my-mongo -d -p 27017:27017 mongo
+```
+Then use the interactive mode to connect to the container:
+```bash
+docker exec -it <container_id or name> /bin/bash
+```
+Then run the mongo shell:
+```bash
+mongosh
+```

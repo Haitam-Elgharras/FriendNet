@@ -28,7 +28,7 @@
     docker logs -f <container_id>
     ```
 
-- Publish a port:
+- Publish a port: it maps a port in the host machine to a port in the container.
     ```bash
     docker run -d -p <host_port>:<container_port> <image_name>:<tag>
     ```
@@ -38,7 +38,7 @@ Note that the ports don't have to be the same.
     ```bash
     docker exec <container_name/id> <any os command>
     ```
-example:
+example with a container named `myapp`:
     docker exec myapp ls
     docker exec -it myapp sh
 
@@ -58,7 +58,7 @@ example:
     ```
 - search for a container by name:
     ```bash
-    docker ps -a | grep <container_name / any prop>
+    docker ps -a | grep < container_name / any prop >
     ```
 
 ## containers Filesystem
@@ -80,6 +80,10 @@ example:
 - To attach a volume to a container:
     ```bash
     docker run -d -v <volume_name>:<container_volume_path> <image_name>:<tag>
+    ```
+example with a container named `server` and a volume named `data`:
+    ```bash
+    docker run -d -v data:/app server 
     ```
 
 ## Copy files to and from a container

@@ -1,22 +1,22 @@
 version: "3.8"
 
 services:
-  web:
+  client:
     build: ./client
     ports:
-      - "3000:3000"
-  api:
+      - 5173:5173
+  server:
     build: ./server
     ports:
-      - "5000:3001"
+      - 5000:3001
     # environment:
-      # DB_URL: "mongodb://mongo:27017"
+      # DB_URL: mongodb://db/friendnet
 
-#  if we have a database
+#  if we have a local database
 #   mongodb:
 #     image: mongo:4.0-xenial
 #     ports:
-#       - "27017:27017"
+#       - 27017:27017
 #     volumes:
 #       - friendnet:/data/db
 

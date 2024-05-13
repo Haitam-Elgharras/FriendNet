@@ -1,10 +1,11 @@
 FROM node:20.3.0-alpine3.17
 
 WORKDIR /app
+
 # copy stable files first
 COPY package*.json ./
-
 RUN npm install
+
 # Create the data directory for volume
 RUN mkdir data
 
