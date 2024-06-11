@@ -5,6 +5,18 @@ services:
     build: ./client
     ports:
       - 5173:5173
+    # # Publishing changes with the container
+    # volumes:
+    #   - ./client:/app
+
+    # to run tests automatically
+  client-tests:
+    image: friendnet_client
+    # # Publishing changes with the container
+    # volumes:
+    #   - ./client:/app
+    command: npm test
+
   server:
     build: ./server
     ports:
@@ -13,6 +25,11 @@ services:
       MONGO_URI: mongodb://db/SocialMedia
       JWT_SECRET: MY_JWT_SECRET
       # DB_URL: mongodb://db/friendnet
+    # volumes:
+    #   - ./server:/app
+    # command: ./docker-entrypoint.sh
+
+  # local db
   db:
     image: mongo
     container_name: "my-mongo"
