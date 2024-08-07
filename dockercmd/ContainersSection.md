@@ -38,15 +38,38 @@ Note that the ports don't have to be the same.
     ```bash
     docker exec <container_name/id> <any os command>
     ```
-example with a container named `myapp`:
+- example with a container named `myapp`:
+    ```bash
     docker exec myapp ls
     docker exec -it myapp sh
+    ```
 
-- To stop or start a container:
+- To stop or start or pause or unpause a container:
     ```bash
     docker stop <container id/name>
     docker start <container id/name>
+    docker pause <container id/name>
+    docker unpause <container id/name>
     ```
+
+    - The difference between stop and kill
+    ```bash
+    docker stop <container id/name>
+    ```
+    The stop commande will give the container some time to shutdown gracefully `SIGTERM` like stopping services or connection pools...
+
+    ```bash
+    docker kill <container id/name>
+    ```
+    This stops the container without any delay `SIGKILL`
+    + it's recommanded to use stop instead of kill
+
+# Restart policy
+- when Running a container we can add `--restart=always` will always restart the container regardless of the exit status. When we specify always, the Docker daemon will try to restart the container indefinitely. The container will also always start on daemon startup, regardless of the current state of the container. 
+    ```bash
+        docker run --restart=always redis
+    ```
+
 ## difference between docker run/exec/start
 - `docker run` is used to create a new container from an image and start it.
 - `docker exec` is used to run a command in a running container.

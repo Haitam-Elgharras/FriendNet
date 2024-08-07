@@ -64,6 +64,11 @@ When we run our app using docker-compose, Like we discuss earlier, Docker-compos
 
 To learn more about Docker networking, check out this medium article: [Docker Networking](https://medium.com/@kesaralive/diving-deeper-into-docker-networking-with-docker-compose-737e3b8a3c8c)
 
+# some usefull commandes
+![alt text](image-2.png)
+- docker system df show us what docker daemon manages and their states...
+- docker events show us the events happening for example when we run a command
+
 
 # Viewing logs
 - To view the logs across all the containers:
